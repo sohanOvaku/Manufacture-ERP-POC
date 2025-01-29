@@ -1,0 +1,308 @@
+<!-- Book Table -->
+<div class="container-fluid height">
+    <h1 class="mt-4">Auhtors</h1>
+    <!-- Heading -->
+    <div>
+        <nav aria-label=" breadcrumb bg-white" >
+            <ol class="breadcrumb bg-white">
+            <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Auhtor</li>
+            </ol>
+        </nav>
+    </div>
+    <!-- Table -->
+    <div class="card shadow-lg p-3 mb-5 bg-light rounded">
+        <div class="card-body">
+            <div class="table-responsive">
+                <app-table [HeadArray]="HeadArray" [BodyArray]="authorList" [dtTrigger]="dtTrigger" 
+                (onUpdate)="updateRequest($event)" [updateModal]="modalID.update" [tableHeight]="tableHeight"
+                (onDelete)="deleteRequest($event)" [deleteModal]="modalID.delete"  (gettAll)="getAllAuthors()" ></app-table>
+            </div>
+        </div>
+        <!-- Floating Button -->
+        <button type="button" class="float btn btn-outline-dark btn-floating" data-toggle="modal" title="Add Modal"
+         (click)="resetForm();resetAll()"  data-target="#addModal">
+            <i class="fa-solid fa-plus"></i>
+        </button>
+    </div>
+</div>
+
+<!-- Add Author Modal -->
+<div class="container-fluid">
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+            <h5 class="modal-title " id="exampleModalLabel" >Add Author</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+            <div class="card ">
+                <div class="card-body">
+                <div class="container">
+                    <form [formGroup]="authorForm">
+                        <!-- Name -->
+                        <div class="form-group form-outline mb-4">
+                            <label class="form-label" for="form3Example3">Name:</label>
+                            <input type="text" id="form3Example3" class="form-control"
+                            formControlName="name" name="name" placeholder="Enter Author name"/>
+                        </div>
+                        <div class="form-group form-outline mb-4">
+                            <label class="form-label" for="form3Example3">Phone Number:</label>
+                            <input type="text" id="form3Example3" class="form-control" 
+                            formControlName="phoneNo" name="phoneNo" placeholder="Enter Phone Number"/>                                                        
+                        </div>
+                        <!-- Auhtors -->
+                        <!-- view all selected Auhtors-->
+                        <div classs="form-group form-outline">
+                            <!-- label -->
+                            <div classs="form-group form-outline mb-4">
+                                <label class="form-label shift-right">Nominees: </label>
+                                    <a type="button" class="btn-secondary btn-circle btn-xsm text-white" title="Add Nominee" data-toggle="collapse" 
+                                        aria-expanded="false" aria-controls="collapseExample"
+                                        [attr.data-target]="'#'+modalID.add"> <i class="fa-solid fa-plus"></i>
+                                    </a>
+                            </div>
+                            <!-- selected badges -->
+                            <div class="card form-outline mb-4">
+                                <div class="card-body form-outline badge-row">
+                                    <div class="row">
+                                        <table class="table table-hover ">
+                                            <thead class="bg-dark text-white">
+                                                <tr>
+                                                    <th scope="col">SL NO.</th>
+                                                    <th scope="col">Nominee Name</th>
+                                                    <th scope="col">Phone No</th>
+                                                    <th scope="col">Remove</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of selectedNomineeList;let sr=index">
+                                                    <td>{{sr+1}}</td>
+                                                    <td>{{item.name}}</td>
+                                                    <td>{{item.phoneNo}}</td>
+                                                    <td>
+                                                        <button aria-label="Close"  type="button" (click)="removeFromSelectedList(sr)"
+                                                        class="close badge-button-close" title="Select Authors" 
+                                                        data-toggle="collapse" aria-expanded="false" aria-controls="collapseExample" 
+                                                        [attr.data-target]="'#'+modalID.add">
+                                                        <span aria-hidden="true">×</span>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            <tbody *ngIf="selectedNomineeList?.length == 0">
+                                                <td colspan="4" class="text-center">No Nominee Added </td>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                                                     
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <!-- add -->
+                        <div formGroupName="nominee">
+                            <div class="collapse" [id]="modalID.add">
+                                <div class="card card-body">
+                                    <div class="row table-padding">
+
+                                        <!-- Nominee -->
+                                        <div class="form-group form-outline mb-4">
+                                            <label class="form-label" for="form3Example3">Name:</label>
+                                            <input type="text" id="form3Example3" class="form-control"
+                                            formControlName="name" name="name" placeholder="Enter Nominee name"/>
+                                        </div>
+                                        <div class="form-group form-outline mb-4">
+                                            <label class="form-label" for="form3Example3">Phone Number:</label>
+                                            <input type="text" id="form3Example3" class="form-control" 
+                                            formControlName="phoneNo" name="phoneNo" placeholder="Enter Phone Number"/>                                                        
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-group form-outline mb-4">
+                                        <button type="button" (click)="addNomineeInList(authorForm.value.nominee)"
+                                        class="btn bg-dark text-white btn-block mb-4 border border-dark" title="Select Service" 
+                                        data-toggle="collapse" aria-expanded="false" aria-controls="collapseExample" 
+                                        [attr.data-target]="'#'+modalID.add">Add</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <!-- Submit button -->
+                    <button type="submit" [disabled]="!authorForm.valid" class="btn bg-dark text-white btn-block mb-4 border border-dark" 
+                    data-dismiss="modal" data-target="basic-success-example" 
+                        (click)="onSubmit(authorForm.value)">Submit</button>
+                    </form>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Update Client Modal -->
+<div class="container-fluid">
+    <div class="modal fade" [id]="modalID.update" tabindex="-1" role="dialog" aria-labelledby="clientUpdateModal1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-dark  text-white">
+            <h5 class="modal-title" id="clientUpdateModal1">Update Author</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body ">
+                <div class="card ">
+                <div class="card-body">
+                    <div class="container">
+                        <form [formGroup]="authorForm">
+                            <!-- id & status -->
+                            <div class="row">
+
+                            <!-- id -->
+                                <div class="form-group col" align="left">
+                                    <label>Id: {{authorModel.id}}</label>
+                                    <input type="text"  hidden class="form-control" formControlName="id" />
+                                </div>
+                                <!-- status -->
+                                <!-- <div class="form-group col" align="right">
+                                    <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="customSwitch1"  formControlName="isActive" >
+                                    <label class="custom-control-label" for="customSwitch1">Status</label>
+                                    </div>
+                                </div> -->
+                                <div class="form-group form-outline mb-4">
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" class="custom-control-input" id="customSwitch2"  formControlName="isAlive" >
+                                        <label class="custom-control-label" for="customSwitch2">Author Vital Status</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Name -->
+                            <div class="form-group form-outline mb-4">
+                                <label class="form-label" for="form3Example3">Name:</label>
+                                <input type="text" id="form3Example3" class="form-control"
+                                formControlName="name" name="name" placeholder="Enter Author name"/>
+                            </div>
+                            <div class="form-group form-outline mb-4">
+                                <label class="form-label" for="form3Example3">Phone Number:</label>
+                                <input type="text" id="form3Example3" class="form-control" 
+                                formControlName="phoneNo" name="phoneNo" placeholder="Enter Phone Number"/>                                                        
+                            </div>
+                            
+                            <!-- Auhtors -->
+                        <!-- view all selected Auhtors-->
+                        <div classs="form-group form-outline">
+                            <!-- label -->
+                            <div classs="form-group form-outline mb-4">
+                                <label class="form-label shift-right">Nominees: </label>
+                                    <a type="button" class="btn-secondary btn-circle btn-xsm text-white" title="Select Service" data-toggle="collapse" 
+                                        aria-expanded="false" aria-controls="collapseExample"
+                                        data-target="#modalUpdate"> <i class="fa-solid fa-plus"></i>
+                                    </a>
+                            </div>
+                            <!-- selected badges -->
+                            <div class="card form-outline mb-4">
+                                <div class="card-body form-outline badge-row">
+                                    <div class="row">
+                                        <table class="table table-hover ">
+                                            <thead class="bg-dark text-white">
+                                                <tr>
+                                                    <th scope="col">SL NO.</th>
+                                                    <th scope="col">Nominee Name</th>
+                                                    <th scope="col">Phone No</th>
+                                                    <th scope="col">Remove</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of selectedNomineeList;let sr=index">
+                                                    <td>{{sr+1}}</td>
+                                                    <td>{{item.name}}</td>
+                                                    <td>{{item.phoneNo}}</td>
+                                                    <td>
+                                                        <button aria-label="Close"  type="button" (click)="removeFromSelectedList(sr)"
+                                                        class="close badge-button-close" title="Select Authors" 
+                                                        data-toggle="collapse" aria-expanded="false" aria-controls="collapseExample" 
+                                                        [attr.data-target]="'#'+modalID.add">
+                                                        <span aria-hidden="true">×</span>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            <tbody *ngIf="selectedNomineeList?.length == 0">
+                                                <td colspan="4" class="text-center">No Nominee Added </td>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                                                       
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <!-- add -->
+                        <div formGroupName="nominee">
+                            <div class="collapse" id="modalUpdate">
+                                <div class="card card-body">
+                                    <div class="row table-padding">
+                                        <!-- Nominee -->
+                                        <div class="form-group form-outline mb-4">
+                                            <label class="form-label" for="form3Example3">Name:</label>
+                                            <input type="text" id="form3Example3" class="form-control"
+                                            formControlName="name" name="name" placeholder="Enter Nominee name"/>
+                                        </div>
+                                        <div class="form-group form-outline mb-4">
+                                            <label class="form-label" for="form3Example3">Phone Number:</label>
+                                            <input type="text" id="form3Example3" class="form-control" 
+                                            formControlName="phoneNo" name="phoneNo" placeholder="Enter Phone Number"/>                                                        
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-group form-outline mb-4">
+                                        <button type="button" (click)="addNomineeInList(authorForm.value.nominee)"
+                                        class="btn bg-dark text-white btn-block mb-4 border border-dark" title="Select Service" 
+                                        data-toggle="collapse" aria-expanded="false" aria-controls="collapseExample" 
+                                        data-target="#modalUpdate">Add</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                                                         
+                            <!-- Submit button -->
+                        <button type="button" (click)="updateAuthor(authorForm.value)" class="btn bg-dark  text-white btn-block mb-4" 
+                         data-target="basic-success-example" [disabled]="!authorForm.valid" data-dismiss="modal"
+                         >Submit
+                        </button>
+                        </form>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Client Delete Modal -->
+<div class="container-fluid">
+    <div class="modal fade" [id]="modalID.delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" 
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="exampleModalLabel2">Delete Auhtor</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Do you really want to delete these records? 
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="deleteAuthor()">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>

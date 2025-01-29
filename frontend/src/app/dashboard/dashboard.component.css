@@ -1,0 +1,12 @@
+/* Hide Scrollbar */
+.container-fluid{
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+}
+.container-fluid::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+}
+.height{
+    height: 33rem;
+    padding-top: 4rem;
+}

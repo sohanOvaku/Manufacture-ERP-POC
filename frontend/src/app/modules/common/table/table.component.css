@@ -1,0 +1,15 @@
+.isDisabled {
+    cursor: not-allowed;
+    pointer-events: none;
+    text-decoration: none;
+}
+
+.long-text-wrap {
+    height: 4rem;
+    display: block; 
+    overflow-y: auto
+}
+.nav-link {
+    display: contents;
+    padding: 0.75rem 0.75rem;
+}

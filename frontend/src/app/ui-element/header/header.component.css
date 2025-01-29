@@ -1,0 +1,18 @@
+navbarDropdown{
+    right: 1rem;
+}
+.sb-topnav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+  }
+
+  /*  */
+
+.navbar-brand-padding{
+    padding-left: 1rem;
+    /* padding-right: 4rem; */
+    font-size: .999rem;
+}

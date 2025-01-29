@@ -1,0 +1,151 @@
+<!-- Book Table -->
+<div class="container-fluid height">
+    <!-- Heading -->
+    <h1 class="mt-4">Books</h1>
+    <div>
+        <nav aria-label=" breadcrumb bg-white" >
+            <ol class="breadcrumb bg-white">
+            <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Book</li>
+            </ol>
+        </nav>
+    </div>
+    <!-- Table -->
+    <div class="card shadow-lg p-3 mb-5 bg-light rounded">
+        <div class="card-body">
+            <div class="table-responsive">
+                <app-table [HeadArray]="HeadArray" [BodyArray]="bookList" [dtTrigger]="dtTrigger" 
+                 (gettAll)="getAllBooks()" ></app-table>
+            </div>
+        </div>
+        <!-- Floating Button -->
+        <button type="button" class="float btn btn-outline-dark btn-floating" data-toggle="modal" title="Add Modal"
+         (click)="resetForm()"  data-target="#addModal">
+            <i class="fa-solid fa-plus"></i>
+        </button>
+    </div>
+</div>
+
+<!-- Add Book Modal -->
+<div class="container-fluid">
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+            <h5 class="modal-title " id="exampleModalLabel" >Add Book</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+            <div class="card ">
+                <div class="card-body">
+                <div class="container">
+                    <form [formGroup]="bookForm">
+                        <!-- Name -->
+                        <div class="form-group form-outline mb-4">
+                            <label class="form-label" for="form3Example3">Name:</label>
+                            <input type="text" id="form3Example3" class="form-control"
+                            formControlName="name" name="name" placeholder="Enter Book name"/>
+                        </div>
+                        <div class="form-group form-outline mb-4">
+                            <label class="form-label" for="form3Example3">Price:</label>
+                            <input type="text" id="form3Example3" class="form-control" 
+                            formControlName="price" name="price" placeholder="Enter Price"/>                                                        
+                        </div>
+                        <div class="form-group form-outline mb-4">
+                            <label class="form-label" for="form3Example3">Quantity:</label>
+                            <input type="text" id="form3Example3" class="form-control" 
+                            formControlName="quantity" name="quantity" placeholder="Enter quantity"/>                                                        
+                        </div>
+                            <!-- Auhtors -->
+                        <!-- view all selected Auhtors-->
+                        <div classs="form-group form-outline">
+                            <!-- label -->
+                            <div classs="form-group form-outline mb-4">
+                                <label class="form-label shift-right">Authors: </label>
+                                <a type="button" class="btn-secondary btn-circle btn-xsm text-white" title="Select Authors" data-toggle="collapse" 
+                                    aria-expanded="false" aria-controls="collapseExample" (click)="getAllAuthors()"
+                                    [attr.data-target]="'#'+modalID.add"> <i class="fa-solid fa-plus"></i>
+                                </a>
+                            </div>
+                            <!-- selected badges -->
+                            <div class="card form-outline mb-4">
+                                <div class="card-body form-outline badge-row">
+                                    <div class="row">
+                                        <table class="table table-hover ">
+                                            <thead class="bg-dark text-white">
+                                                <tr>
+                                                    <th scope="col">SL NO.</th>
+                                                    <th scope="col">Author Name</th>
+                                                    <th scope="col">Royalty (%)</th>
+                                                    <th scope="col">Remove</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of selectedAuthorList;let sr=index">
+                                                    <td>{{sr+1}}</td>
+                                                    <td>{{item.name}}</td>
+                                                    <td>{{item.model.royalty}}</td>
+                                                    <td>
+                                                        <button aria-label="Close"  type="button" (click)="removeFromSelectedList(sr)"
+                                                        class="close badge-button-close" title="Select Authors" 
+                                                        data-toggle="collapse" aria-expanded="false" aria-controls="collapseExample" 
+                                                        [attr.data-target]="'#'+modalID.add">
+                                                        <span aria-hidden="true">×</span>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            <tbody *ngIf="selectedAuthorList?.length == 0">
+                                                <td colspan="4" class="text-center">No Author Selected </td>
+                                            </tbody>
+                                        </table>
+                                    </div>                                    
+                                </div>
+                            </div>
+                        </div>
+                        <!-- add -->
+                        <div formGroupName="authors">
+                            <div class="collapse" [id]="modalID.add">
+                                <div class="card card-body">
+                                    <div class="row">
+                                        <!-- Auhtors -->
+                                        <div class="form-group form-group col">
+                                            <label class="form-label" id="authorId" for="author">Auhtors:</label>  
+                                            <select class="form-control" formControlName="authorId">
+                                                <option selected aria-checked="true" aria-disabled="true" 
+                                                value="Select">Select Auhors</option> 
+                                                <option *ngFor="let author of nonSelecetedAuthorList" 
+                                                value={{author.id}}+{{author.name}}>{{author.name}}</option>  
+                                            </select>
+                                        </div>
+                                        <!-- Royalty -->
+                                        <div class="form-group form-group col">
+                                            <label class="form-label" for="form3Example3">Royalty (%):</label>
+                                            <input type="number" id="form3Example3" class="form-control" 
+                                            formControlName="royalty" placeholder="Enter Royalty" />
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-group form-outline mb-4">
+                                        <button type="button" (click)="addAuthorInList(bookForm.value.authors)" 
+                                        class="btn bg-dark text-white btn-block mb-4 border border-dark" title="Select Author" 
+                                        data-toggle="collapse" aria-expanded="false" aria-controls="collapseExample" 
+                                        [attr.data-target]="'#'+modalID.add">Add</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <!-- Submit button -->
+                    <button type="submit" [disabled]="!bookForm.valid" class="btn bg-dark text-white btn-block mb-4 border border-dark" 
+                    data-dismiss="modal" data-target="basic-success-example" 
+                        (click)="onSubmit(bookForm.value)">Submit</button>
+                    </form>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>

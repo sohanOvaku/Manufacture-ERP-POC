@@ -1,0 +1,74 @@
+<!-- Common Table -->
+<table id="datatableID" datatable  [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"  class="table table-hover" style="width:100%" >
+    <thead>
+        <tr>
+        <th>SL-No.</th>
+        <th *ngFor="let head of HeadArray">{{head.head}} </th> 
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of BodyArray;let sr=index">
+            <td>{{sr+1}}</td>
+            <td  *ngFor="let head of HeadArray">
+                <!-- omint Description -->
+                <div *ngIf="head.field!='description'"> 
+                    {{item[head.field]}}
+                </div>
+                <!-- Details View Hyperlink -->
+                <div *ngIf="head.view=='name'||head.view=='id'" >
+                    <a class="nav-link" routerLink="{{item.id}}" routerLinkActive="active">
+                        {{item[head.view]}}
+                    </a>
+                </div>
+                <!-- Description -->
+                <div *ngIf="head.field=='description'" class="long-text-wrap">
+                    {{item.description}}
+                </div>
+                <!-- Alive --> <!-- checking if status exist or not -->
+                <div *ngIf="head.field=='vitalStatus'" class="text-center">
+                    <!-- check status and set status badges -->
+                    <td *ngIf="item.isAlive">
+                        <span class="badge badge-success">Alive</span>
+                        </td>
+                        <td *ngIf="!item.isAlive">
+                        <span class="badge badge-warning">Expired</span>
+                        </td>
+                </div>
+                <!-- Status --> <!-- checking if status exist or not -->
+                <div *ngIf="head.field=='status'" class="text-center">
+                    <!-- check status and set status badges -->
+                    <td *ngIf="item.isActive">
+                        <span class="badge badge-success">Active</span>
+                        </td>
+                        <td *ngIf="!item.isActive">
+                        <span class="badge badge-warning">In active</span>
+                        </td>
+                </div>
+                <!-- Action Button --> <!-- checking if action exist or not -->
+                <div *ngIf="head.field=='action'" class="text-center">
+                    <div class="badge-side-by-side">
+                        <div class="center">
+                            <!-- Update button-->
+                            <a type="button" class="edit " title="Edit" data-toggle="modal" [attr.data-target]="'#'+updateModal" (click)="update(item)">
+                                <i class="material-icons" style="color:#4e73df ">&#xE254;</i></a>
+                            <!-- Checking table data is active or not -->
+                                <span *ngIf="item.isActive">
+                                <a type="button" class="delete" title="Delete" data-toggle="modal" [attr.data-target]="'#'+deleteModal" (click)="delete(item)">
+                                    <i class="material-icons" style="color:red">&#xE872;</i></a>
+                            </span>
+                            <span *ngIf="!item.isActive">
+                                <a type="button" class="delete isDisabled" title="Delete" data-toggle="modal" [attr.data-target]="'#'+deleteModal" (click)="delete(item)">
+                                    <i class="material-icons" style="color:dimgrey">&#xE872;</i></a>
+                            </span>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div *ngIf="head.field=='view'" class="text-center">
+                    <a type="button" class="edit " title="Edit" (click)="detailsView(item)">
+                        <i class="material-icons">&#xE8f4;</i></a>
+                </div>
+            </td>
+        </tr> 
+    </tbody>
+</table>

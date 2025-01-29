@@ -1,0 +1,37 @@
+/* Hide Scrollbar */
+.container-fluid{
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+}
+.container-fluid::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+}
+.height{
+    height: 33rem;
+    padding-top: 5rem;
+}
+
+.btn-size{
+    width: auto;
+}
+
+.table-align{
+    align-items: inherit;
+}
+
+.col-padding{
+    text-align: right;
+    padding-top: .50rem;
+}
+
+.card-height{
+    height: 5rem;
+}
+
+.card-padding{
+    padding-left: 15rem;
+    padding-top: 0.3rem;
+}
+.card-body-dark{
+    background-color:#5a5c69 ;
+}
