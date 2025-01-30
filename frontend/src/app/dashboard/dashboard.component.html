@@ -171,7 +171,7 @@
         </div>
 
         <!-- Pie Chart -->
-        <div class="col-xl-4 col-lg-5">
+        <div class="col-xl-4 col-lg-5 ">
             <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -200,7 +200,7 @@
                         
                         <app-line-chart></app-line-chart>
                     </div>
-                    <div class="mt-4 text-center small">
+                    <!-- <div class="mt-4 text-center small">
                         <span class="mr-2">
                             <i class="fas fa-circle text-primary"></i> Direct
                         </span>
@@ -210,7 +210,7 @@
                         <span class="mr-2">
                             <i class="fas fa-circle text-info"></i> Referral
                         </span>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -225,9 +225,9 @@
             <!-- Project Card Example -->
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Best Selling Titles</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Material Waste</h6>
                 </div>
-                <div class="card-body">
+                <!-- <div class="card-body">
                     <h4 class="small font-weight-bold">Tintin <span class="float-right">20%</span></h4>
                     <div class="progress mb-4">
                         <div class="progress-bar bg-danger" role="progressbar" style="width: 20%" aria-valuenow="20"
@@ -238,20 +238,26 @@
                         <div class="progress-bar bg-warning" role="progressbar" style="width: 40%" aria-valuenow="40"
                             aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
-                    <h4 class="small font-weight-bold">Chander Pahar<span class="float-right">60%</span></h4>
-                    <div class="progress mb-4">
-                        <div class="progress-bar" role="progressbar" style="width: 60%" aria-valuenow="60"
-                            aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <h4 class="small font-weight-bold">Tenida<span class="float-right">80%</span></h4>
-                    <div class="progress mb-4">
-                        <div class="progress-bar bg-info" role="progressbar" style="width: 80%" aria-valuenow="80"
-                            aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <h4 class="small font-weight-bold">Feluda Samagra<span class="float-right">90%</span></h4>
                     <div class="progress">
                         <div class="progress-bar bg-success" role="progressbar" style="width: 90%" aria-valuenow="100"
                             aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div> -->
+                <div class="card-body">
+                    <!-- Iron Waste Progress Bar -->
+                    <h4 class="small font-weight-bold">Iron Waste <span class="float-right">{{ ironWastePercentage }}%</span></h4>
+                    <div class="progress mb-4">
+                        <div class="progress-bar bg-danger" role="progressbar" [style.width.%]="ironWastePercentage"
+                            [attr.aria-valuenow]="ironWastePercentage" aria-valuemin="0" aria-valuemax="100">
+                        </div>
+                    </div>
+                
+                    <!-- Nickel Waste Progress Bar -->
+                    <h4 class="small font-weight-bold">Nickel Waste <span class="float-right">{{ nickelWastePercentage }}%</span></h4>
+                    <div class="progress mb-4">
+                        <div class="progress-bar bg-danger" role="progressbar" [style.width.%]="nickelWastePercentage"
+                            [attr.aria-valuenow]="nickelWastePercentage" aria-valuemin="0" aria-valuemax="100">
+                        </div>
                     </div>
                 </div>
             </div>

@@ -24,7 +24,7 @@ import { LineChartComponent } from './dashboard/line-chart/line-chart.component'
     HeaderComponent,
     FooterComponent,
     BarChartComponent,
-    LineChartComponent,
+    LineChartComponent
   ],
   imports: [
     BrowserModule,

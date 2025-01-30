@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  API_BASE_URL: 'http://13.233.200.215:8082',//'http://192.168.0.121:8080',//
-  API_LOCAL_URL: 'http://13.233.200.215:8082'
+  API_BASE_URL: 'http://192.168.0.121:8082',//
+  API_LOCAL_URL: 'http://192.168.0.121:8082'
 };
 
 /*

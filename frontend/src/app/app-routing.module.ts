@@ -16,6 +16,9 @@ const routes: Routes = [
     path: "royalty-report",loadChildren: () => import('./modules/royaltys/royaltys.module').then(m => m.RoyaltysModule)
   },
   {
+    path: "orders",loadChildren: () => import('./modules/orders/orders.module').then(m => m.OrdersModule)
+  },
+  {
 		path: '**', redirectTo: 'dashboard'
 	}
 ];
