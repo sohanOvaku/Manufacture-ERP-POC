@@ -7,29 +7,32 @@
                 class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
     </div> -->
     <h1 class="mt-4">Dashboard</h1>
-    <ol class="breadcrumb mb-4">
+    <h4 class="breadcrumb-item active"  *ngIf="isFloorManager">Welcome Floor Manager</h4>
+    <h4 class="breadcrumb-item active"  *ngIf="!isFloorManager">Welcome Production Manager</h4>
+    <!-- <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item active">Dashboard</li>
-    </ol>
+       
+    </ol> -->
     <div class="row">
         <div class="col-xl-3 col-md-6">
             <div class="card bg-primary text-white mb-4">
-                <div class="card-body">Sales Report</div>
+                <div class="card-body">Production Report</div>
                 <div class="card-footer bg-primary d-flex align-items-center justify-content-between">
                     <a class="small text-white stretched-link" href="#">View Details</a>
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6">
+        <div class="col-xl-3 col-md-6" *ngIf="!isFloorManager">
             <div class="card bg-warning text-white mb-4">
-                <div class="card-body">Party Performance</div>
+                <div class="card-body">Sales Report</div>
                 <div class="card-footer bg-warning d-flex align-items-center justify-content-between">
                     <a class="small text-white stretched-link" href="#">View Details</a>
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6">
+        <div class="col-xl-3 col-md-6" *ngIf="!isFloorManager">
             <div class="card bg-success text-white mb-4">
                 <div class="card-body">Zone Wise Report</div>
                 <div class="card-footer bg-success d-flex align-items-center justify-content-between">
@@ -38,7 +41,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6">
+        <div class="col-xl-3 col-md-6" *ngIf="!isFloorManager">
             <div class="card bg-danger text-white mb-4">
                 <div class="card-body">Return Report</div>
                 <div class="card-footer bg-danger d-flex align-items-center justify-content-between">
@@ -134,6 +137,50 @@
         </div> -->
     </div>
 
+        <!-- Content Row -->
+        <div class="row">
+
+            <!-- Content Column -->
+            <div class="col-lg-6 mb-4">
+    
+                <!-- Project Card Example -->
+                <div class="card chart-card shadow mb-4">
+                    <!-- Card Header - Dropdown -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">
+                            <i class="fas fa-chart-bar me-1"></i> Iron used graph</h6>
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <div class="chart-pie pt-4 pb-2">
+                            <app-line-chart></app-line-chart>
+                        </div>
+                    </div>
+                </div>
+    
+                
+    
+            </div>
+            <div class="col-lg-6 mb-4">
+                <div class="card chart-card shadow mb-4">
+                    <!-- Card Header - Dropdown -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">
+                            <i class="fas fa-chart-bar me-1"></i> Nickel used Graph</h6>
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <div class="chart-pie pt-4 pb-2">
+                            <!-- <canvas id="MyChart"></canvas> -->
+                            
+                            <app-line-chart-nickel></app-line-chart-nickel>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>    
+
     <!-- Content Row -->
 
     <div class="row">
@@ -144,7 +191,7 @@
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <i class="fas fa-chart-area me-1"></i>
-                    <h6 class="m-0 font-weight-bold text-primary">Sales Graph</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Production Graph</h6>
                     <div class="dropdown no-arrow">
                         <!-- <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
@@ -173,57 +220,6 @@
         <!-- Pie Chart -->
         <div class="col-xl-4 col-lg-5 ">
             <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">
-                        <i class="fas fa-chart-bar me-1"></i> Zone Wise Graph</h6>
-                    <div class="dropdown no-arrow">
-                        <!-- <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                            aria-labelledby="dropdownMenuLink">
-                            <div class="dropdown-header">Dropdown Header:</div>
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                        </div> -->
-                        
-                    </div>
-                </div>
-                <!-- Card Body -->
-                <div class="card-body">
-                    <div class="chart-pie pt-4 pb-2">
-                        <!-- <canvas id="MyChart"></canvas> -->
-                        
-                        <app-line-chart></app-line-chart>
-                    </div>
-                    <!-- <div class="mt-4 text-center small">
-                        <span class="mr-2">
-                            <i class="fas fa-circle text-primary"></i> Direct
-                        </span>
-                        <span class="mr-2">
-                            <i class="fas fa-circle text-success"></i> Social
-                        </span>
-                        <span class="mr-2">
-                            <i class="fas fa-circle text-info"></i> Referral
-                        </span>
-                    </div> -->
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Content Row -->
-    <div class="row">
-
-        <!-- Content Column -->
-        <div class="col-lg-6 mb-4">
-
-            <!-- Project Card Example -->
-            <div class="card shadow mb-4">
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">Material Waste</h6>
                 </div>
@@ -247,26 +243,21 @@
                     <!-- Iron Waste Progress Bar -->
                     <h4 class="small font-weight-bold">Iron Waste <span class="float-right">{{ ironWastePercentage }}%</span></h4>
                     <div class="progress mb-4">
-                        <div class="progress-bar bg-danger" role="progressbar" [style.width.%]="ironWastePercentage"
-                            [attr.aria-valuenow]="ironWastePercentage" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar" role="progressbar" [style.width.%]="ironWastePercentage"
+                            [attr.aria-valuenow]="ironWastePercentage" aria-valuemin="0" aria-valuemax="100" [style.backgroundColor]="'#FF6384'">
                         </div>
                     </div>
                 
                     <!-- Nickel Waste Progress Bar -->
                     <h4 class="small font-weight-bold">Nickel Waste <span class="float-right">{{ nickelWastePercentage }}%</span></h4>
                     <div class="progress mb-4">
-                        <div class="progress-bar bg-danger" role="progressbar" [style.width.%]="nickelWastePercentage"
-                            [attr.aria-valuenow]="nickelWastePercentage" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar" role="progressbar" [style.width.%]="nickelWastePercentage"
+                            [attr.aria-valuenow]="nickelWastePercentage" aria-valuemin="0" aria-valuemax="100" [style.backgroundColor]="'#4BC0C0'">
                         </div>
                     </div>
                 </div>
             </div>
-
             
-
         </div>
-
-        
     </div>
-
 </div>

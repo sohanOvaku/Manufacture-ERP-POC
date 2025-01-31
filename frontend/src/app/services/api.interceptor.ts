@@ -26,7 +26,7 @@ export class ApiInterceptor implements HttpInterceptor {
             this.toastr.error(errorMsg);
           }
           else {
-            this.toastr.error("Unable to connect server");
+            // this.toastr.error("Unable to connect server");
             errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
           }
           console.log(errorMsg);

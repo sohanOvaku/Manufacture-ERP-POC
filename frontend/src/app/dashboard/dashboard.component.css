@@ -18,5 +18,26 @@
   
   app-bar-chart, app-line-chart {
     width: 100% !important;
-    height: 300px; /* Set a fixed height */
+    height: 300px; 
   }
+
+/* .chart-pie canvas {
+    width: 100% !important;  
+    height: auto !important; 
+} */
+
+.iron-color{
+    color: '#FF6384';
+}
+
+.nickel-color{
+    color: '#4BC0C0';
+}
+
+.chart-card{
+    height: 45vw;
+    /* max-height: 40vw; */
+    overflow: hidden;
+    /* min-height: fit-content; */
+
+}

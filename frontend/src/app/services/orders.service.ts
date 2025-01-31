@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
 })
 export class OrdersService {
 
-  private _url:string = "http://localhost:8080/orders";//environment.API_BASE_URL+"/orders";
+  private _url:string = environment.API_BASE_URL+"/orders";
 
   constructor(private http:HttpClient) { }
 
@@ -20,12 +20,15 @@ export class OrdersService {
     return this.http.get<any>(this._url+'/'+id);
   }
 
-  add(quantity:number):Observable<any>{
-    return this.http.post<any>(this._url+'?quantity='+quantity,null);
+  add(quantity:number, uomId: string):Observable<any>{
+    return this.http.post<any>(this._url+'?quantity='+quantity+'&uomId='+uomId,null);
   }
 
   updateById(id:number,status:string, finishedWeight?:number):Observable<any>{
     // return this.http.put<any>(this._url+'/'+id'?status='+status+);
+    console.log("id: ", id);
+    console.log("status: ", status);
+    console.log("finishedWeight: ", finishedWeight);
     let url = `${this._url}/${id}?`;
     // Add 'status' parameter if provided
     if (status) {
@@ -43,5 +46,9 @@ export class OrdersService {
     console.log("URL: ", url);
     
     return this.http.put<any>(`${this._url}`,null);
+  }
+
+  update(id:number,dto?:any):Observable<any>{
+    return this.http.put<any>(this._url+'/'+id,dto);
   }
 }

@@ -15,6 +15,8 @@ import { ApiInterceptor } from './services/api.interceptor';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BarChartComponent } from './dashboard/bar-chart/bar-chart.component';
 import { LineChartComponent } from './dashboard/line-chart/line-chart.component';
+import { LoginComponent } from './modules/auth/login/login.component';
+import { LineChartNickelComponent } from './dashboard/line-chart-nickel/line-chart-nickel.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { LineChartComponent } from './dashboard/line-chart/line-chart.component'
     HeaderComponent,
     FooterComponent,
     BarChartComponent,
-    LineChartComponent
+    LineChartComponent,
+    LineChartNickelComponent,
+    // LoginComponent
   ],
   imports: [
     BrowserModule,

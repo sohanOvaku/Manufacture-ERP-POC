@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class OthersService {
-  private _url:string = "http://localhost:8080";//environment.API_BASE_URL;
+  private _url:string = environment.API_BASE_URL;
 
   constructor(private http:HttpClient) { }
 
@@ -22,9 +22,15 @@ export class OthersService {
   getUnitOfMeasure():Observable<any>{
     return this.http.get<any>(`${this._url}/units/steel_bottles`);
   }
+  getAllUnitOfMeasure():Observable<any>{
+    return this.http.get<any>(`${this._url}/units`);
+  }
 
   getOrderStats():Observable<any>{
     return this.http.get<any>(`${this._url}/orders/stats`);
   }
 
+  login(data:any):Observable<any>{
+    return this.http.post<any>(`${this._url}/login`,data);
+  }
 }

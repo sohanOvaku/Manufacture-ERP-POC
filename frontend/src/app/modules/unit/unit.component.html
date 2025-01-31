@@ -1,0 +1,28 @@
+<!-- Book Table -->
+<div class="container-fluid height">
+    <h1 class="mt-4">Bill of Materials</h1>
+    <!-- Heading -->
+    <div>
+        <nav aria-label=" breadcrumb bg-white" >
+            <ol class="breadcrumb bg-white">
+            <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Bill of Materials</li>
+            </ol>
+        </nav>
+    </div>
+    <!-- Table -->
+    <div class="card shadow-lg p-3 mb-5 bg-light rounded">
+        <div class="card-body">
+            <div class="table-responsive">
+                <app-table [HeadArray]="HeadArray" [BodyArray]="unitOfMeasureList" [dtTrigger]="dtTrigger" [tableHeight]="tableHeight"
+                (gettAll)="getAllUom()" ></app-table>
+            </div>
+        </div>
+        <!-- Floating Button -->
+        <!-- <button type="button" *ngIf="!isFloorManager" class="float btn btn-outline-dark btn-floating" data-toggle="modal" title="Add Modal"
+         
+          data-target="#addModal">
+            <i class="fa-solid fa-plus"></i>
+        </button> -->
+    </div>
+</div>

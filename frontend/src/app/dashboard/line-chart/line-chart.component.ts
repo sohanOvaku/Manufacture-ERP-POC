@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Chart } from 'chart.js';
+import { Chart, TooltipItem } from 'chart.js';
 import { ToastrService } from 'ngx-toastr';
 import { OthersService } from 'src/app/services/others.service';
 
@@ -53,9 +53,8 @@ export class LineChartComponent {
 
 
   createChart(apiData: any) {
-    const labels = ['Used Material', 'Waste Material', 'Remaining Material'];
-    const ironData = [apiData.usedMaterial.iron, apiData.wasteMaterial.iron, apiData.remainingMaterial.iron];
-    const nickelData = [apiData.usedMaterial.nickel, apiData.wasteMaterial.nickel, apiData.remainingMaterial.nickel];
+    const labels = ['Used Iron', 'Waste Iron', 'Pending Iron', 'In Production'];
+    const ironData = [apiData.usedMaterial.iron, apiData.wasteMaterial.iron, apiData.pendingMaterial.iron, apiData.inProgressMaterial.iron];
 
     this.chart = new Chart("MyChart1", {
       type: 'pie',
@@ -65,13 +64,13 @@ export class LineChartComponent {
           {
             label: "Iron",
             data: ironData,
-            backgroundColor: ['#FF6384', '#FFCE56', '#36A2EB']
+            backgroundColor: ['#FF6384', '#FFCE56', '#36A2EB', '#36D9EB']
           },
-          {
-            label: "Nickel",
-            data: nickelData,
-            backgroundColor: ['#4BC0C0', '#FF9F40', '#9966FF']
-          }
+          // {
+          //   label: "Nickel",
+          //   data: nickelData,
+          //   backgroundColor: ['#4BC0C0', '#FF9F40', '#9966FF']
+          // }
         ]
       },
       options: {
@@ -79,9 +78,22 @@ export class LineChartComponent {
         plugins: {
           legend: {
             position: 'top',
+          },
+          tooltip: {
+            callbacks: {
+              label: function (tooltipItem: TooltipItem<'pie'>) {
+                let value = tooltipItem.raw as number;
+                let unit = "kg";
+                if (value >= 1000) {
+                  value = value / 1000; // Convert to tons
+                  unit = "tons";
+                }
+                return `${tooltipItem.label}: ${value.toFixed(2)} ${unit}`;
+              }
+            }
           }
         },
-        aspectRatio:1.1
+        aspectRatio: 1.1
       }
     });
   }

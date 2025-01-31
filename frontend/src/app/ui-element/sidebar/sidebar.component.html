@@ -13,56 +13,36 @@
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item active">
-        <a class="nav-link" routerLink="/dashboard">
+    <li class="nav-item">
+        <a class="nav-link" [routerLinkActive]="'active'"  routerLink="/dashboard">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
 
     <!-- Divider -->
     <hr class="sidebar-divider">
-
-    <!-- <div class="sidebar-heading">
-        Business
-    </div> -->
-
-    <!-- Nav Item - Authors -->
-    <li class="nav-item">
-        <a class="nav-link" routerLink="/authors">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Authors</span></a>
-    </li>
-
-    <!-- Nav Item - Books-->
-    <li class="nav-item">
-        <a class="nav-link" routerLink="/books">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Books</span>
-        </a>
-    </li>
     
     <li class="nav-item">
-        <a class="nav-link" routerLink="/orders">
+        <a class="nav-link" [routerLinkActive]="'active'"  routerLink="/orders">
             <i class="fas fa-fw fa-table"></i>
-            <span>orders</span>
+            <span>Orders</span>
         </a>
     </li>
 
-    <!-- Divider -->
-    <hr class="sidebar-divider">
+    <li class="nav-item">
+        <a class="nav-link" [routerLinkActive]="'active'"  routerLink="/boms">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Bill Of Materials</span>
+        </a>
+    </li>
 
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Report
+    <div class="mt-auto"> <!-- Ensures logout is pushed to the bottom -->
+        <li class="nav-item">
+            <a class="nav-link" (click)="logout()">
+                <i class="fas fa-fw fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </a>
+        </li>
     </div>
-
-    <!-- Nav Item - Events -->
-    <li class="nav-item">
-        <a class="nav-link" routerLink="/royalty-report">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Royalty</span></a>
-    </li>
-
-    
 
 </ul>

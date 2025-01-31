@@ -1,4 +1,4 @@
-<ng-container>
+<ng-container *ngIf="loginStatus">
   <div id="wrapper">
       <!-- Sidebar -->
       <app-sidebar></app-sidebar>
@@ -21,4 +21,7 @@
       </div>
       <!-- End of Content Wrapper -->
   </div>
+</ng-container>
+<ng-container *ngIf="!loginStatus">
+    <router-outlet></router-outlet>
 </ng-container>

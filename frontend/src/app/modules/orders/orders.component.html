@@ -19,7 +19,7 @@
             </div>
         </div>
         <!-- Floating Button -->
-        <button type="button" class="float btn btn-outline-dark btn-floating" data-toggle="modal" title="Add Modal"
+        <button type="button" *ngIf="!isFloorManager" class="float btn btn-outline-dark btn-floating" data-toggle="modal" title="Add Modal"
          
           data-target="#addModal">
             <i class="fa-solid fa-plus"></i>
@@ -44,12 +44,20 @@
                         <form [formGroup]="orderForm">
                           <!-- Quantity Field -->
                           <div class="form-group form-outline mb-4">
+                            <label class="form-label" for="quantity">Product:</label>
+                            <select class="form-control" formControlName="uomId">
+                              <option selected aria-checked="true" value="steel_bottle">Bottle</option> 
+                              <option selected aria-checked="true" value="tiffin_box">Tiffin Box</option>
+                            </select>
+                          </div>
+
+                          <div class="form-group form-outline mb-4">
                             <label class="form-label" for="quantity">Quantity:</label>
                             <input type="number" id="quantity" class="form-control" formControlName="quantity" placeholder="Enter Quantity" />
                           </div>
                           <!-- Submit button -->
                           <button type="submit"  class="btn bg-dark text-white btn-block mb-4 border border-dark"
-                                  (click)="onSubmit(orderForm.value)">Submit</button>
+                                  (click)="onSubmit(orderForm.value)" data-dismiss="modal">Submit</button>
                         </form>
                       </div>
                     </div>
@@ -60,55 +68,59 @@
     </div>
 </div>
 
-<!-- Update Client Modal -->
-<div class="container-fluid">
-    <div class="modal fade" [id]="modalID.update" tabindex="-1" role="dialog" aria-labelledby="orderUpdateModal" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header bg-dark text-white">
-            <h5 class="modal-title" id="orderUpdateModal">Update Order</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div class="card">
-              <div class="card-body">
-                <div class="container">
-                  <form [formGroup]="orderForm">
-                    <!-- Order ID -->
-                    <div class="form-group col" align="left">
-                      <!-- <label>Id: {{orderModel.id}}</label> -->
-                      <label class="form-label" for="id">Id: {{orderModel.id}}</label>
-                      <input type="text"  hidden class="form-control" formControlName="id" value={{orderModel.id}}/>
-                  </div>
-  
-                    <!-- Status -->
-                    <div class="form-group form-outline mb-4">
-                      <label class="form-label" for="status">Status:</label>
-                      <select id="status" class="form-control" formControlName="status" value={{orderModel.status}}>
-                        <option value="PENDING">PENDING</option>
-                        <option value="IN_PROGRESS">IN_PROGRESS</option>
-                        <option value="DONE">DONE</option>
-                      </select>
-                    </div>
-  
-                    <!-- Finished Weight -->
-                    <div class="form-group form-outline mb-4">
-                      <label class="form-label" for="finishedWeight">Finished Weight:</label>
-                      <input type="number" id="finishedWeight" class="form-control" formControlName="finishedWeight" placeholder="Enter Finished Weight" />
-                    </div>
-  
-                    <!-- Submit Button -->
-                    <button type="button" (click)="updateOrder(orderForm.value)" class="btn bg-dark text-white btn-block mb-4">
-                      Submit
-                    </button>
-                  </form>
+
+
+<!-- Update Order Modal -->
+<div class="modal fade" [id]="modalID.update" tabindex="-1" role="dialog" aria-labelledby="orderUpdateModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-dark text-white">
+        <h5 class="modal-title" id="orderUpdateModal">Update Order</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card">
+          <div class="card-body">
+            <div class="container">
+              <form [formGroup]="orderForm">
+                <!-- Order ID (Hidden) -->
+                <input type="hidden" formControlName="id"/>
+
+                <!-- If status is PENDING -->
+                <div *ngIf="isPending" class="text-center">
+                  <h5>Are you sure?</h5>
+                  <p>This will move the order to <b>IN PROGRESS</b>.</p>
                 </div>
-              </div>
+
+                <!-- If status is IN_PROGRESS -->
+                <div *ngIf="isInProgress">
+                  <div class="form-group form-outline mb-4">
+                    <label class="form-label" for="finishedWeight">Finished Weight:</label>
+                    <input type="number" id="finishedWeight" class="form-control" formControlName="finishedWeight" placeholder="Enter Finished Weight"/>
+                  </div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="d-flex justify-content-between">
+                  <button *ngIf="isPending" type="button" (click)="updateOrder(orderForm.value)" class="btn btn-success" data-dismiss="modal">
+                    Yes
+                  </button>
+
+                  <button *ngIf="isInProgress" type="button" (click)="updateOrder(orderForm.value)" class="btn btn-success" data-dismiss="modal">
+                    Done
+                  </button>
+
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    Cancel
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>

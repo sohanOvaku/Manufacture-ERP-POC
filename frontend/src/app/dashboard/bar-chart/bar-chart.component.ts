@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import Chart from 'chart.js/auto';
+import { ToastrService } from 'ngx-toastr';
+import { OthersService } from 'src/app/services/others.service';
 
 @Component({
   selector: 'app-bar-chart',
@@ -8,10 +10,21 @@ import Chart from 'chart.js/auto';
 })
 export class BarChartComponent implements OnInit{
   public chart: any;
+  constructor(private otherService:OthersService,private _toastrService: ToastrService){}
+    
   ngOnInit(): void {
-    this.createChart();
+    this.fetchChartData();
   }
-  createChart(){
+
+  fetchChartData() {
+    this.otherService.getOrderStats().subscribe(data =>{ 
+      this.createChart(data);
+    });
+  }
+  createChart(data:any){
+    const pendingData = data.pendingMaterial.iron + data.pendingMaterial.nickel;
+    const usedData = data.usedMaterial.iron + data.usedMaterial.nickel;
+
   
     this.chart = new Chart("MyChart", {
       type: 'bar', //this denotes tha type of chart
@@ -23,12 +36,12 @@ export class BarChartComponent implements OnInit{
 	       datasets: [
           {
             label: "Order Pending",
-            data: [0, 4, 0], // Orders pending per month
+            data: [0, pendingData, 0], // Orders pending per month
             backgroundColor: 'blue'
           },
           {
             label: "Order Complete",
-            data: [0, 3, 0], // Orders completed per month
+            data: [0, usedData, 0], // Orders completed per month
             backgroundColor: 'limegreen'
           }
         ]
