@@ -11,6 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class OtherService {
     private InventoryRepository inventoryRepository;
@@ -42,5 +45,18 @@ public class OtherService {
         logger.info("Unit of steel bottle: {}",unitOfMeasure);
         return new UnitOfMeasure(unitOfMeasure.getProduct(), unitOfMeasure.getQuantity(),
                 unitOfMeasure.getIronRequired(), unitOfMeasure.getNickelRequired());
+    }
+
+    public List<UnitOfMeasure> getAllUnitOfMeasure(){
+        List<UnitOfMeasure> unitOfMeasureList = unitOfMeasureRepository.findAll();
+        logger.info("Units: {}",unitOfMeasureList);
+        return unitOfMeasureList.stream()
+                .map(unitOfMeasure -> new UnitOfMeasure(
+                        unitOfMeasure.getProduct(),
+                        unitOfMeasure.getQuantity(),
+                        unitOfMeasure.getIronRequired(),
+                        unitOfMeasure.getNickelRequired()
+                ))
+                .collect(Collectors.toList());
     }
 }

@@ -1,6 +1,7 @@
 package in.ovaku.ManufacturerErpPoc.service;
 
 import in.ovaku.ManufacturerErpPoc.dto.BillOfMaterialDto;
+import in.ovaku.ManufacturerErpPoc.dto.OrderRequestDto;
 import in.ovaku.ManufacturerErpPoc.dto.OrdersDto;
 import in.ovaku.ManufacturerErpPoc.entity.*;
 import in.ovaku.ManufacturerErpPoc.repository.BillOfMaterialRepository;
@@ -31,10 +32,10 @@ public class OrderService {
         this.unitOfMeasureRepository = unitOfMeasureRepository;
     }
 
-    public OrdersDto createOrder(int bottleQuantity) {
+    public OrdersDto createOrder(int bottleQuantity, String uomId) {
         logger.info("Into create order: bottle quantity:{}",bottleQuantity);
 
-        UnitOfMeasure uom = unitOfMeasureRepository.findById("steel_bottle").orElseThrow(() -> {
+        UnitOfMeasure uom = unitOfMeasureRepository.findById(uomId).orElseThrow(() -> {
             logger.error("UnitOfMeasure not found");
             return new RuntimeException("UnitOfMeasure not found");
         });
@@ -68,6 +69,7 @@ public class OrderService {
         Orders orders = new Orders();
         orders.setQuantity(bottleQuantity);
         orders.setStatus(OrderStatus.PENDING);
+        orders.setProduct(uom.getProduct());
         orderRepository.save(orders);
         logger.info("Order record saved: {}", orders);
         BillOfMaterial bom = new BillOfMaterial();
@@ -79,8 +81,8 @@ public class OrderService {
         return getById(orders.getId());
     }
 
-    public OrdersDto updateOrderStatus(Long orderId, OrderStatus status, Double finishedWeight) {
-        logger.info("Into updateOrderStatus: {}, {}, {}", orderId, status,finishedWeight);
+    public OrdersDto updateOrderStatus(Long orderId, OrderRequestDto dto) {
+        logger.info("Into updateOrderStatus: {}, {}", orderId, dto);
         Orders orders = orderRepository.findById(orderId)
                 .orElseThrow(() -> {
                     logger.error("Order not found");
@@ -93,15 +95,15 @@ public class OrderService {
             throw new RuntimeException("Order is already completed");
         }
 
-        if (status == OrderStatus.DONE && finishedWeight == null) {
+        if (dto.getStatus() == OrderStatus.DONE && dto.getFinishedWeight() == null) {
             logger.error("Finished weight is required when marking as DONE");
             throw new RuntimeException("Finished weight is required when marking as DONE");
         }
 
-        orders.setStatus(status);
+        orders.setStatus(dto.getStatus());
 
-        if (status == OrderStatus.DONE) {
-            orders.setFinishedWeight(finishedWeight);
+        if (dto.getStatus() == OrderStatus.DONE) {
+            orders.setFinishedWeight(dto.getFinishedWeight());
         }
 
         orders = orderRepository.save(orders);
@@ -122,7 +124,8 @@ public class OrderService {
                         orders.getQuantity(),
                         orders.getBillOfMaterial(),
                         orders.getCreatedDate(),
-                        orders.getUpdatedDate()))
+                        orders.getUpdatedDate(),orders.getProduct()))
+
                 .collect(Collectors.toList());
     }
 
@@ -135,7 +138,7 @@ public class OrderService {
         Orders orders = optionalOrder.get();
         logger.info("Found order: {}", orders);
         OrdersDto ordersDto = new OrdersDto(orders.getId(), orders.getStatus(),orders.getFinishedWeight(),
-                orders.getQuantity(),orders.getBillOfMaterial(),orders.getCreatedDate(),orders.getUpdatedDate());
+                orders.getQuantity(),orders.getBillOfMaterial(),orders.getCreatedDate(),orders.getUpdatedDate(),orders.getProduct());
         return ordersDto;
     }
 }

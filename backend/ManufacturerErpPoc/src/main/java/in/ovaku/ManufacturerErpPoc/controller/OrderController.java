@@ -1,5 +1,6 @@
 package in.ovaku.ManufacturerErpPoc.controller;
 
+import in.ovaku.ManufacturerErpPoc.dto.OrderRequestDto;
 import in.ovaku.ManufacturerErpPoc.entity.Orders;
 import in.ovaku.ManufacturerErpPoc.entity.OrderStatus;
 import in.ovaku.ManufacturerErpPoc.service.OrderService;
@@ -20,10 +21,10 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> createOrder(@RequestParam Integer quantity) {
-        logger.info("Into create order controller :{}", quantity);
+    public ResponseEntity<Object> createOrder(@RequestParam Integer quantity, @RequestParam String uomId) {
+        logger.info("Into create order controller :{}, uomId {}", quantity, uomId);
         try {
-            return ResponseEntity.ok(orderService.createOrder(quantity));
+            return ResponseEntity.ok(orderService.createOrder(quantity, uomId));
         } catch (Exception e){
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
@@ -31,12 +32,13 @@ public class OrderController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateOrderStatus(
-            @PathVariable Long id,
-            @RequestParam OrderStatus status,
-            @RequestParam(required = false) Double finishedWeight) {
-        logger.info("Into update order controller:{}, {}, {}", id, status, finishedWeight);
+            @PathVariable Long id, @RequestBody OrderRequestDto dto
+//            @RequestParam OrderStatus status,
+//            @RequestParam(required = false) Double finishedWeight
+    ) {
+        logger.info("Into update order controller:{}, {}", id, dto);
         try {
-            return ResponseEntity.ok(orderService.updateOrderStatus(id, status, finishedWeight));
+            return ResponseEntity.ok(orderService.updateOrderStatus(id, dto));
         } catch (Exception e){
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }

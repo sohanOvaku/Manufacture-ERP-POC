@@ -25,23 +25,32 @@ public class Bootstrap implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-//        inventoryRepository.save(new Inventory("iron", 1000000));
-//        inventoryRepository.save(new Inventory("nickel", 250000));
+        if (!inventoryRepository.existsByMaterial("iron")) {
+            inventoryRepository.save(new Inventory("iron", 10000));
+        }
+        if (!inventoryRepository.existsByMaterial("nickel")) {
+            inventoryRepository.save(new Inventory("nickel", 5000));
+        }
 
         unitOfMeasureRepository.save(new UnitOfMeasure("steel_bottle", 100, 8000, 2000));
+        unitOfMeasureRepository.save(new UnitOfMeasure("tiffin_box", 10, 550, 450));
 
-        User floorManager = new User();
-        floorManager.setName("Subrata Bag");
-        floorManager.setEmail("subratab@ovaku.in");
-        floorManager.setPassword("1234");
-        floorManager.setRole(UserRole.FLOOR_MANAGER);
-        userRepository.save(floorManager);
+        if (!userRepository.existsByEmail("subratab@ovaku.in")) {
+            User floorManager = new User();
+            floorManager.setName("Subrata Bag");
+            floorManager.setEmail("subratab@ovaku.in");
+            floorManager.setPassword("1234");
+            floorManager.setRole(UserRole.FLOOR_MANAGER);
+            userRepository.save(floorManager);
+        }
 
-        User productManager = new User();
-        productManager.setName("Sohan Barman");
-        productManager.setEmail("sohanb@ovaku.in");
-        productManager.setPassword("1234");
-        productManager.setRole(UserRole.PRODUCTION_MANAGER);
-        userRepository.save(productManager);
+        if (!userRepository.existsByEmail("sohanb@ovaku.in")) {
+            User productManager = new User();
+            productManager.setName("Sohan Barman");
+            productManager.setEmail("sohanb@ovaku.in");
+            productManager.setPassword("1234");
+            productManager.setRole(UserRole.PRODUCTION_MANAGER);
+            userRepository.save(productManager);
+        }
     }
 }

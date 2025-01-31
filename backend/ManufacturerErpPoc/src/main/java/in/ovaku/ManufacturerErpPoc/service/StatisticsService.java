@@ -8,6 +8,7 @@ import in.ovaku.ManufacturerErpPoc.entity.Orders;
 import in.ovaku.ManufacturerErpPoc.repository.BillOfMaterialRepository;
 import in.ovaku.ManufacturerErpPoc.repository.InventoryRepository;
 import in.ovaku.ManufacturerErpPoc.repository.OrderRepository;
+import in.ovaku.ManufacturerErpPoc.utils.ConversionUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -30,17 +31,34 @@ public class StatisticsService {
         double totalIronUsed = 0;
         double totalNickelUsed = 0;
         double totalFinishedWeight = 0;
+        double totalIronPending = 0;
+        double totalNickelPending = 0;
+        double totalIronInUse = 0;
+        double totalNickelInUse = 0;
 
-        List<OrdersDto> completedOrders = orderService.getAll()
-                .stream()
-                .filter(order -> order.getStatus() == OrderStatus.DONE)
-                .toList();
+        List<OrdersDto> orders = orderService.getAll();
 
-        for (OrdersDto order : completedOrders) {
+        for (OrdersDto order : orders) {
             BillOfMaterial bom = bomRepository.findById(order.getBillOfMaterial().getId()).get(); // Assuming 1 BoM per order
-            totalIronUsed += bom.getIronUsed();
-            totalNickelUsed += bom.getNickelUsed();
-            totalFinishedWeight += order.getFinishedWeight();
+
+            switch (order.getStatus()) {
+                case DONE -> {
+                    totalIronUsed += bom.getIronUsed();
+                    totalNickelUsed += bom.getNickelUsed();
+                    totalFinishedWeight += order.getFinishedWeight();
+                    break;
+                }
+                case PENDING -> {
+                    totalIronPending += bom.getIronUsed();
+                    totalNickelPending += bom.getNickelUsed();
+                    break;
+                }
+                case IN_PROGRESS -> {
+                    totalIronInUse += bom.getIronUsed();
+                    totalNickelInUse += bom.getNickelUsed();
+                    break;
+                }
+            }
         }
 
         // 🔹 Calculate Total Waste
@@ -56,8 +74,9 @@ public class StatisticsService {
 
         Map<String, Object> stats = new HashMap<>();
         stats.put("usedMaterial", Map.of("iron", totalIronUsed, "nickel", totalNickelUsed));
-        stats.put("wasteMaterial", Map.of("iron", ironWaste, "nickel", nickelWaste));
-        stats.put("remainingMaterial", Map.of("iron", ironInventory.getQuantity(), "nickel", nickelInventory.getQuantity()));
+        stats.put("wasteMaterial", Map.of("iron", ironWaste, "nickel",nickelWaste));
+        stats.put("pendingMaterial", Map.of("iron", totalIronPending, "nickel", totalNickelPending));
+        stats.put("inProgressMaterial", Map.of("iron", totalIronInUse, "nickel", totalNickelInUse));
 
         return stats;
     }

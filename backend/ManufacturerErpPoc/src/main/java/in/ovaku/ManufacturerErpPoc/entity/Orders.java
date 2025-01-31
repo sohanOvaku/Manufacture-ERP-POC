@@ -21,6 +21,7 @@ public class Orders {
     private OrderStatus status;
     private Double finishedWeight;
     private Integer quantity;
+    private String product;
 
     @JsonIgnore
     @OneToOne(mappedBy = "orders")
@@ -87,5 +88,13 @@ public class Orders {
 
     public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
+    }
+
+    public String getProduct() {
+        return product;
+    }
+
+    public void setProduct(String product) {
+        this.product = product;
     }
 }

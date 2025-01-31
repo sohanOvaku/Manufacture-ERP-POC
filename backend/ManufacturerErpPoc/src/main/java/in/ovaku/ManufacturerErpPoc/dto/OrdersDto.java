@@ -16,6 +16,7 @@ public class OrdersDto {
     private BillOfMaterial billOfMaterial;
     private Date createdDate;
     private Date updatedDate;
+    private String product;
 
     public OrdersDto(Long id, OrderStatus status, Double finishedWeight, Integer quantity, BillOfMaterial billOfMaterial, Date createdDate, Date updatedDate) {
         this.id = id;
@@ -25,6 +26,17 @@ public class OrdersDto {
         this.billOfMaterial = billOfMaterial;
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
+    }
+
+    public OrdersDto(Long id, OrderStatus status, Double finishedWeight, Integer quantity, BillOfMaterial billOfMaterial, Date createdDate, Date updatedDate, String product) {
+        this.id = id;
+        this.status = status;
+        this.finishedWeight = finishedWeight;
+        this.quantity = quantity;
+        this.billOfMaterial = billOfMaterial;
+        this.createdDate = createdDate;
+        this.updatedDate = updatedDate;
+        this.product = product;
     }
 
     public Long getId() {
@@ -81,5 +93,13 @@ public class OrdersDto {
 
     public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
+    }
+
+    public String getProduct() {
+        return product;
+    }
+
+    public void setProduct(String product) {
+        this.product = product;
     }
 }
