@@ -110,11 +110,22 @@ export class OrdersComponent implements OnInit{
     
     // Call the service to make the API request
     this.orderService.add(quantity,uomId).subscribe(
-      (response) => {
+      async (response) => {
         this._toastrService.success('Order placed successfully');
-        // Optionally, close the modal here if you're using Bootstrap's modal handling
-        this.table.rerender();
-        // Additional logic to update the UI after placing the order
+        if(this.orderList.length == 0){
+          await this.orderService.getById(response.id).subscribe((data) => {
+            const transformedOrder = {
+              ...data,
+              ironUsed: data.billOfMaterial ? data.billOfMaterial.ironUsed : 'N/A',
+              nickelUsed: data.billOfMaterial ? data.billOfMaterial.nickelUsed : 'N/A'
+            };
+            this.orderList.push(transformedOrder);
+            this.dtTrigger.next(this.orderList);
+          });
+        }else{
+          // Optionally, close the modal here if you're using Bootstrap's modal handling
+          this.table.rerender();
+        }
       },
       (error) => {
         this._toastrService.error('Failed to place order');
