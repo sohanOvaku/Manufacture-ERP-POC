@@ -36,8 +36,8 @@ export class OrdersComponent implements OnInit{
   isInProgress: boolean = false;
 
   HeadArray:any[]=[
-    {'head':'Id','field':'id'},{'head':'Product','field':'product'},{'head':'Quantity','field':'quantity'},{'head':'Status','field':'status'},{'head':'Iron','field':'ironUsed'},
-    {'head':'Nickel','field':'nickelUsed'}];
+    {'head':'Id','field':'id'},{'head':'Product','field':'product'},{'head':'Quantity','field':'quantity'},{'head':'Status','field':'status'},{'head':'Iron (Kg)','field':'ironUsed'},
+    {'head':'Nickel (Kg)','field':'nickelUsed'}];
 
   orderList:any[]=[];
 
