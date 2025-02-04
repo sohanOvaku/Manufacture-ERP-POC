@@ -35,19 +35,19 @@ public class Bootstrap implements CommandLineRunner {
         unitOfMeasureRepository.save(new UnitOfMeasure("steel_bottle", 100, 8000, 2000));
         unitOfMeasureRepository.save(new UnitOfMeasure("tiffin_box", 10, 550, 450));
 
-        if (!userRepository.existsByEmail("subratab@ovaku.in")) {
+        if (!userRepository.existsByEmail("floor@ovaku.in")) {
             User floorManager = new User();
-            floorManager.setName("Subrata Bag");
-            floorManager.setEmail("subratab@ovaku.in");
+            floorManager.setName("Floor Manager");
+            floorManager.setEmail("floor@ovaku.in");
             floorManager.setPassword("1234");
             floorManager.setRole(UserRole.FLOOR_MANAGER);
             userRepository.save(floorManager);
         }
 
-        if (!userRepository.existsByEmail("sohanb@ovaku.in")) {
+        if (!userRepository.existsByEmail("admin@ovaku.in")) {
             User productManager = new User();
-            productManager.setName("Sohan Barman");
-            productManager.setEmail("sohanb@ovaku.in");
+            productManager.setName("Admin");
+            productManager.setEmail("admin@ovaku.in");
             productManager.setPassword("1234");
             productManager.setRole(UserRole.PRODUCTION_MANAGER);
             userRepository.save(productManager);
