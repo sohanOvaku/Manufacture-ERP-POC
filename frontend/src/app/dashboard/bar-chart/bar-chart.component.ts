@@ -32,7 +32,7 @@ export class BarChartComponent implements OnInit{
       data: {// values on X-Axis
         // labels: ['2022-05-10', '2022-05-11', '2022-05-12','2022-05-13',
 				// 				 '2022-05-14', '2022-05-15', '2022-05-16','2022-05-17', ], 
-        labels: ['Dec 2024', 'Jan 2025', 'Feb 2025'],
+        labels: ['Jan 2025', 'Feb 2025', 'Mar 2025'],
 	       datasets: [
           {
             label: "Order Pending",
